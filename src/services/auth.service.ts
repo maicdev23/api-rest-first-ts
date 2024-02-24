@@ -1,23 +1,10 @@
 import jwt from 'jsonwebtoken';
-import ModelUser from '../models/user.model'
-import { IUser, IAuth } from "../interfaces";
-import { decrytp, encrypt } from "../helpers/bcrypt";
-
-export const register = async ({fullname, username, password}: IUser) => {
-
-    const existe = await ModelUser.findOne({ username: username})
-
-    if(existe) return 'The user already exists'
-        
-    const data = new ModelUser({fullname, username, password})
-    data.password = await encrypt(password)
-    const user = await data.save();
-
-    return { msg: `User registered successfully`, user }
-}
+import UserModel from '../models/user.model'
+import { IAuth } from "../interfaces";
+import { decrytp } from "../helpers/bcrypt";
 
 export const login = async ({username, password}: IAuth) => {
-    const user = await ModelUser.findOne({username: username})
+    const user = await UserModel.findOne({username: username})
     if(!user) return 'User not found'
 
     const compare = await decrytp(password, user.password)
@@ -26,4 +13,9 @@ export const login = async ({username, password}: IAuth) => {
     const token: string = jwt.sign({_id: user._id}, <string>process.env.JWT, { expiresIn: '1h' })
 
     return { msg: 'Bienvenido', token, auth: true }
+}
+
+export const index = async (userId: String) => {
+    const user = await UserModel.findById(userId, { password: 0 })
+    return user
 }

@@ -1,20 +1,7 @@
 import { Request, Response } from "express";
-import ModelUser from '../models/user.model'
-import { login, register } from "../services/auth.service";
+import { index, login } from "../services/auth.service";
 
-export const signup = async ({body}: Request, res:Response) => {
-    try{
-        const respuesta = await register(body)
-
-        if(respuesta === 'The user already exists') return res.status(403).json({msg: respuesta})
-        
-        return res.json({msg: respuesta})
-    }catch(err: any) {
-        return res.status(500).json({msg: err.message})
-    }
-}
-
-export const signin = async ({body}: Request, res:Response) => {
+export const auth = async ({body}: Request, res:Response) => {
     try {
         const respuesta = await login(body)
 
@@ -28,7 +15,11 @@ export const signin = async ({body}: Request, res:Response) => {
     }
 }
 
-export const index = async (req: Request, res:Response) => {
-    const user = await ModelUser.findById(req.userId, { password: 0})
-    return res.status(200).json(user)
+export const main = async (req: Request, res:Response) => {
+    try {
+        const user = await index(req.userId)
+        return res.status(200).json(user)
+    } catch (err:any) {
+        return res.status(500).json({msg: err.message})
+    }
 }
