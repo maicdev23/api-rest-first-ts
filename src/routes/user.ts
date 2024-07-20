@@ -6,7 +6,7 @@ const user: Router = Router()
 user.route('/user')
     .get(getUsers)
     .post(addUser)
-    
+
 user.route('/user/:id')
     .get(getUser)
     .put(updateUser)

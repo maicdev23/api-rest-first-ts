@@ -5,7 +5,7 @@ import { validateToken } from "../middlewares/verifyAuth";
 
 const rutas: Router = Router()
 
-rutas.get('/main', [ validateToken ], main)
+rutas.get('/main', [validateToken], main)
 rutas.post('/auth', auth)
 
 export default rutas

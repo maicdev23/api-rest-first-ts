@@ -7,13 +7,13 @@ export const listUsers = async () => {
     return users
 }
 
-export const newUser = async ({fullname, username, password}: IUser) => {
+export const newUser = async ({ fullname, username, password }: IUser) => {
 
-    const existe = await UserModel.findOne({ username: username})
+    const existe = await UserModel.findOne({ username: username })
 
-    if(existe) return 'The user already exists'
-        
-    const data = new UserModel({fullname, username, password})
+    if (existe) return 'The user already exists'
+
+    const data = new UserModel({ fullname, username, password })
     data.password = await encrypt(password)
     const user = await data.save();
 
@@ -26,8 +26,8 @@ export const listUser = async (userId: String) => {
 }
 
 export const editUser = async (userId: String, userData: IUser) => {
-    const user = await UserModel.findByIdAndUpdate(userId, userData, {new: true})
-    return { msg: `User ${user?.username} updated successfully`}
+    const user = await UserModel.findByIdAndUpdate(userId, userData, { new: true })
+    return { msg: `User ${user?.username} updated successfully` }
 }
 
 export const removeUser = async (userId: String) => {

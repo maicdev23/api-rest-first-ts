@@ -4,26 +4,27 @@ import router from './routes'
 
 const port = process.env.PORT
 
-export class Servidor{
+export class Servidor {
     app: express.Application
-    
-    constructor(){
+
+    constructor() {
         this.app = express()
         this.middlewares()
         this.routes()
     }
 
-    middlewares(){
+    middlewares() {
         this.app.use(express.json())
     }
 
-    routes(){
+    routes() {
         this.app.use('/', router)
     }
 
-    listen(){
+    listen() {
         this.app.listen(port, () => {
             console.log(`Servidor a su servicio en el puerto ${port}`)
         }
-    )}
+        )
+    }
 }
