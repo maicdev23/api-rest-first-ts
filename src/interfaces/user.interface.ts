@@ -4,4 +4,6 @@ export interface IUser extends IAuth {
 
     fullname: string;
 
+    role: string;
+
 }

@@ -1,8 +1,9 @@
-import express from 'express';
+import express from "express";
+import cors from "cors";
 
 import router from './routes'
 
-const port = process.env.PORT
+const port = process.env.PORT || 4000
 
 export class Servidor {
     app: express.Application
@@ -14,6 +15,7 @@ export class Servidor {
     }
 
     middlewares() {
+        this.app.use(cors())
         this.app.use(express.json())
     }
 
@@ -24,7 +26,6 @@ export class Servidor {
     listen() {
         this.app.listen(port, () => {
             console.log(`Servidor a su servicio en el puerto ${port}`)
-        }
-        )
+        })
     }
 }

@@ -2,25 +2,25 @@ import { encrypt } from "../helpers/bcrypt"
 import { IUser } from "../interfaces"
 import UserModel from "../models/user.model"
 
-export const listUsers = async () => {
+export const findUsers = async () => {
     const users = await UserModel.find()
     return users
 }
 
-export const newUser = async ({ fullname, username, password }: IUser) => {
+export const saveUser = async ({ fullname, username, password, role }: IUser) => {
 
     const existe = await UserModel.findOne({ username: username })
 
     if (existe) return 'The user already exists'
 
-    const data = new UserModel({ fullname, username, password })
+    const data = new UserModel({ fullname, username, password, role })
     data.password = await encrypt(password)
     const user = await data.save();
 
     return { msg: `User added successfully`, user }
 }
 
-export const listUser = async (userId: String) => {
+export const findUser = async (userId: String) => {
     const user = await UserModel.findById(userId)
     return user
 }

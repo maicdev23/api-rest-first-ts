@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Response, Router } from "express";
 
 import auth from "./auth";
 import user from "./user";
@@ -6,7 +6,7 @@ import user from "./user";
 const router: Router = Router()
 
 router.use('/api', auth, user)
-router.use('*', (req, res) => {
+router.use('*', (res: Response) => {
     return res.status(404).json({ message: 'Resource not found' });
 })
 
